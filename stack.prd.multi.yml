@@ -1,0 +1,83 @@
+version: "3.3"
+services:
+
+  db:
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.labels.type==db]
+    image: mysql:5.5
+    environment:
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/mysql_root_pass
+    networks:
+      - database
+    secrets:
+      - mysql_root_pass
+    volumes:
+      - "/var/lib/mysql:/var/lib/mysql"
+
+  nginx:
+    deploy:
+      replicas: 2
+      placement:
+        constraints: [node.labels.type==worker]
+    image: nginx:1.13.9-alpine
+    networks:
+      - webapp
+    ports:
+      - "80:80"
+      - "443:443"
+    configs:
+      - source: nginx_conf
+        target: "/etc/nginx/nginx.conf"
+    secrets:
+      - site_crt
+      - site_key
+
+  php:
+    deploy:
+      replicas: 2
+      placement:
+        constraints: [node.labels.type==worker]
+    image: michaelerwinp/fpm-khazon-api
+    env_file: "./common/environment/app.env"
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_DOMAIN: khazon.online
+    networks:
+      - webapp
+      - database
+    secrets:
+      - mysql_root_pass
+      - source: app_env
+        target: "/var/www/.env"
+
+  redis:
+    deploy:
+      replicas: 1
+      placement:
+        constraints: [node.labels.type==master]
+    image: redis:alpine
+    networks:
+      - webapp
+
+networks:
+  webapp:
+  database:
+
+configs:
+  nginx_conf:
+    file: "./configs/nginx/nginx.prd.conf"
+
+secrets:
+  app_env:
+    file: "./secrets/app_credentials.env"
+  mysql_root_pass:
+    file: "./secrets/mysql_root_pass.txt"
+  site_crt:
+    file: "./secrets/site.crt"
+  site_key:
+    file: "./secrets/site.key"
+
+# Require Docker v17.06+

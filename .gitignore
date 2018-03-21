@@ -1,0 +1,7 @@
+storage/db/
+tmp/
+*.log
+/src/app/**/test.php
+/src/app/**/TestController.php
+/src/app/**/TestsController.php
+/src/app/vendor
