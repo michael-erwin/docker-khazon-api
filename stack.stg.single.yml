@@ -31,7 +31,7 @@ services:
       - site_key
 
   php:
-    image: michaelerwinp/fpm-khazon-api
+    image: michaelerwinp/fpm-khazon-api:stg
     deploy:
       replicas: 2
     env_file: "./common/environment/app.env"
@@ -62,16 +62,16 @@ networks:
 
 configs:
   nginx_conf:
-    file: "./production/configs/nginx/nginx.conf"
+    file: "./configs/nginx/nginx.conf"
 
 secrets:
   app_env:
-    file: "./production/secrets/app_credentials.env"
+    file: "./secrets/app_credentials.env"
   mysql_root_pass:
-    file: "./production/secrets/mysql_root_pass.txt"
+    file: "./secrets/mysql_root_pass.txt"
   site_crt:
-    file: "./production/secrets/site.crt"
+    file: "./secrets/site.crt"
   site_key:
-    file: "./production/secrets/site.key"
+    file: "./secrets/site.key"
 
 # Require Docker v17.06+

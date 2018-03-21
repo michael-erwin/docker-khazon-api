@@ -35,7 +35,7 @@ services:
       - site_key
 
   php:
-    image: michaelerwinp/fpm-khazon-api
+    image: michaelerwinp/fpm-khazon-api:stg
     deploy:
       replicas: 2
       placement:
