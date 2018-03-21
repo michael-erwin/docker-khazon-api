@@ -34,7 +34,7 @@ services:
     image: michaelerwinp/fpm-khazon-api:stg
     deploy:
       replicas: 2
-    env_file: "./common/environment/app.env"
+    env_file: "./configs/app.env"
     environment:
       APP_ENV: production
       APP_DEBUG: "false"

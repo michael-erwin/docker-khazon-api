@@ -16,6 +16,6 @@ RUN apk add \
 WORKDIR /var/www
 RUN rm -rf /var/www/html
 
-COPY ./production/config/php/php.ini /etc/php7/php.ini
-COPY ./production/config/php/php-fpm.conf /etc/php7/php-fpm.conf
+COPY ./configs/php/php.ini /etc/php7/php.ini
+COPY ./configs/php/php-fpm.conf /etc/php7/php-fpm.conf
 COPY ./src/app /var/www/

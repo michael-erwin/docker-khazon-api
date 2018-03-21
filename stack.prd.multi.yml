@@ -40,7 +40,7 @@ services:
       placement:
         constraints: [node.labels.type==worker]
     image: michaelerwinp/fpm-khazon-api
-    env_file: "./common/environment/app.env"
+    env_file: "./configs/app.env"
     environment:
       APP_ENV: production
       APP_DEBUG: "false"
