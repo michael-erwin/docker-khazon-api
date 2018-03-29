@@ -40,8 +40,13 @@ class UsersController extends Controller
 
     public function readId(Request $request, $id)
     {
-        $fields = ['id','name','email','address','upl_address','upl_address','upl_type','regref_id','created_at'];
+        $fields = ['id','name','email','address','upl_address','upl_type','regref_id','created_at'];
         $user = User::where('id', $id)->select($fields)->first();
+        if ($user->upl_type == 'adjust') {
+            $upline = User::where('id', $user->regref_id)->select(['address'])->first();
+            $user->upl_adjust_addr = $user->upl_address;
+            $user->upl_address = $upline->address;
+        }
 
         // Response
         return response()->json($user);
@@ -51,6 +56,11 @@ class UsersController extends Controller
     {
         $fields = ['id','name','email','address','upl_address','upl_address','upl_type','regref_id','created_at'];
         $user = User::where('address', $address)->select($fields)->first();
+        if ($user->upl_type == 'adjust') {
+            $upline = User::where('id', $user->regref_id)->select(['address'])->first();
+            $user->upl_adjust_addr = $user->upl_address;
+            $user->upl_address = $upline->address;
+        }
 
         // Response
         return response()->json($user);
