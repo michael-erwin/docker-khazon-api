@@ -600,6 +600,7 @@ class AccountController extends Controller
         $user->save();
 
         // Emit reset password request event.
+        $env = env('APP_ENV');
         if($env == 'staging' || $env == 'production') event(new \App\Events\PwResetReqEvent($email, $jwt));
 
         // Response.
