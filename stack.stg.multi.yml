@@ -62,6 +62,15 @@ services:
     networks:
       - webapp
 
+  adminer:
+    image: adminer:standalone
+    deploy:
+      replicas: 1
+    ports:
+      - 8000:8080
+    networks:
+      - database
+
 networks:
   webapp:
   database:

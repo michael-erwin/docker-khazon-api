@@ -63,8 +63,9 @@ services:
     deploy:
       replicas: 1
     ports:
-      - 8080:8080
+      - 8000:8080
     networks:
+      - webapp
       - database
 
 networks:
