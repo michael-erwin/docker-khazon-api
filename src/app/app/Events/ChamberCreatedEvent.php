@@ -17,6 +17,6 @@ class ChamberCreatedEvent extends Event
         $this->location = $location;
         $this->safe_position = $safe_position;
 
-        app('log')->info("Chamber created, location={$this->location}, position={$this->safe_position}");
+        // app('log')->info("Chamber created, location={$this->location}, position={$this->safe_position}");
     }
 }
